@@ -1,40 +1,20 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Layout from './components/Layout.jsx'
+import Dashboard from './pages/Dashboard.jsx'
+import { modules } from './modules.jsx'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Ya jalóoooo</h1>
-          <p>
-            Calando cosas
-          </p>
-        </div>
-      </section>
-      <section id="next-steps">
-        <div id="docs">
-          papu
-        </div>
-        <div id="social">
-          :v
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          {modules.map((m) => (
+            <Route key={m.path} path={`${m.path}/*`} element={m.element} />
+          ))}
+          <Route path="*" element={<h1>404 · Página no encontrada</h1>} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
-
-export default App
